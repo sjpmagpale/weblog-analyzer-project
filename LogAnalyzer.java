@@ -24,14 +24,14 @@ public class LogAnalyzer
         // Create the reader to obtain the data.
         reader = new LogfileReader();
     }
-    
+
     public LogAnalyzer (String filename){
         // question 5 - passing the filename parameter to the reader
-        
+
         hourCounts = new int[HOURS_PER_DAY];
         reader = new LogfileReader(filename);
     }
-    
+
     /**
      * Analyze the hourly access data from the log file.
      */
@@ -52,25 +52,25 @@ public class LogAnalyzer
     public void printHourlyCounts()
     {
         System.out.println("Hr: Count");
-        
+
         //question 3 - using <= -> index out of bounds
         /*for(int hour = 0; hour <= hourCounts.length; hour++) {
-            System.out.println(hour + ": " + hourCounts[hour]);
+        System.out.println(hour + ": " + hourCounts[hour]);
         }*/
         /*for(int hour = 0; hour < hourCounts.length; hour++) {
-            System.out.println(hour + ": " + hourCounts[hour]);
+        System.out.println(hour + ": " + hourCounts[hour]);
         }*/
-        
+
         // question 4 - while loop
-        
+
         int hour = 0;
         while (hour < hourCounts.length){
             System.out.println(hour + ": " + hourCounts[hour]);
             hour++;
         }
-    
+
     }
-    
+
     /**
      * Print the lines of data read by the LogfileReader
      */
@@ -78,7 +78,7 @@ public class LogAnalyzer
     {
         reader.printData();
     }
-    
+
     public int numberOfAccesses(){
         /* question 6 and 7 - using a for loop to iterate over hourCounts so we can count the
          * total number of accesses recorded in the logfile
@@ -88,5 +88,38 @@ public class LogAnalyzer
             total += hourCounts[hour];
         }
         return total;
+    }
+
+    public int busiestHour(){
+        // question 8 - adding a method that returns the busiest hour
+        int busiest = 0;
+        for (int hour = 1; hour < hourCounts.length; hour++){
+            if (hourCounts[hour] > hourCounts[busiest]){
+                busiest = hour;
+            }
+        }
+        return busiest;
+    }
+
+    public int quietestHour(){
+        // question 9 - adding a method that returns the quietest hour
+        int quietest = 0;
+        for (int hour = 1; hour < hourCounts.length; hour++){
+            if(hourCounts[hour] < hourCounts[quietest]){
+                quietest = hour;
+            }
+        }
+        return quietest;
+    }
+
+    public int twoBusiest(){
+        // question 11 - adding a method that finds which 2hr period is the busiest
+        int busiest = 0;
+        for (int hour = 1; hour < (hourCounts.length - 1); hour++){
+            if (hourCounts[hour] + hourCounts[hour + 1] > hourCounts[busiest] + hourCounts[busiest + 1] ){
+                busiest = hour;
+            }
+        }
+        return busiest;
     }
 }
